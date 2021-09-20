@@ -29,11 +29,23 @@ nav {
     font-size: 1.7rem;
     border: 2px solid rgb(70, 70, 70);
     margin: auto;
-    background-color: rgb(175, 175, 175);
+    background-color: rgb(207, 207, 207);
 }
 
 .bttn.active {
-    background-color: rgb(207, 207, 207);
+    background-color: rgb(175, 175, 175);
+}
+
+.bttn.activeAI {
+    background-color: rgba(239, 255, 98, 0.801);
+}
+
+.bttn.activeScore {
+    background-color: rgba(0, 211, 11, 0.801);
+}
+
+.bttn.activeMiss {
+    background-color: rgba(255, 5, 5, 0.801);
 }
 
 
