@@ -17,7 +17,7 @@
     <!-- !JQUERY -->
     <script src="app.js"></script>
     <link rel="stylesheet" href="style.css">
-    <title>Functional Finger Training</title>
+    <title>Dexter</title>
 </head>
 
 <body>
@@ -27,12 +27,14 @@
         <header>
             <div class="row justify-content-between">
                 <div class="col-3">
-                    <h1 class="display-4 text-start">The Dexter</h1>
+                    <h1 class="display-4 text-start">Dexter</h1>
+                    <h4 class="userName"></h4>
                 </div>
                 <!-- <div class="col-3"></div> -->
                 <div class="leaderboard col-3 hide-prog text-start ">
                     <h3>Leaderboard</h3>
-                    <h6>Results</h6>
+                    <h4 class="highscore">Highscore:</h4>
+                    <h4 class="highstreak">Longest Streak:</h4>
                 </div>
             </div>
 
@@ -40,21 +42,42 @@
         </header>
 
         <nav>
-            <div class="row justify-content-end">
-                <div class="nav1 col-2">
-                    <h5>Multiplayer</h5>
-
+            <div class="row">
+                <div class="col">
+                    <div class="row justify-content-start">
+                        <div class="play col-2">
+                            <h5>Play</h5>
+                        </div>
+                        <div class="stop col-2">
+                            <h5>Stop</h5>
+                        </div>
+                        
+                    </div>
                 </div>
-                <div class="nav2 col-2">
-                    <h5>Settings</h5>
+                
+                <div class="col">
+                    <div class="row justify-content-end">
+                        <div class="nav1 col-3">
+                            <h5>Multiplayer</h5>
+                        </div>
+                        <div class="nav2 col-3">
+                            <h5>Settings</h5>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
 
         <main>
-            <div class="row score">
+            <div class="row gameBoard">
                 <div class="col">
-                    <h3> Score </h3>
+                    <h3 class="time ">Time:</h3>
+                </div>
+                <div class="col">
+                    <h3 class="score"> Score: </h3>
+                </div>
+                <div class="col">
+                    <h3 class="streak">Streak:</h3>
                 </div>
             </div>
             <div class="key-container">

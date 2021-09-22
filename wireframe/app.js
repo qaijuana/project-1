@@ -1,22 +1,26 @@
-const keystroke =
-    ["w", "i", "a", "s", "d", "j", "k", "l"]
-    ;
-
-
-
-
-
-
+const KEYSTROKE =["w", "i", "a", "s", "d", "j", "k", "l"];
 
 $(() => {
     //! CALLING FUNCTIONS WOULD BE INSIDE HERE.
+    $userName = $(".userName")
+    $h4 = $("<h4>")
+
+    alert("Hello there!")
+    let userName = prompt("I'm Dexter.\nWhat's your name?")
+    $userName.text("vs").delay(500).text("vs " + userName)
+    alert("Hello " + userName + ". I'm Dexter.\nLets play a game.")
+
+    if (sign.toLowerCase() == "scorpio") {
+    alert("Wow! I'm a Scorpio too!");
+    }
 
     const user = {
         "name": null,
         "currentScore": 0,
         "currentChoice": -1,
-        "currentLight": null,
         "currentStreak": 0,
+        
+        "currentLight": null,
         "accuracy": null,
         "highStreak": 0,
         "highScore": 0,
@@ -24,215 +28,247 @@ $(() => {
     
     const ai = {
         "name": "Dexter",
-        "currentScore": 0,
         "currentChoice": -1
     } 
 
 
+    let userLight = 0;
+    let aiLight = 0;
+    let scoreLight = 0;
+    let missLight = 0;
+    
+    $lightUp = (e) => {
+        // userLight += 1;
+        e.addClass('active');
+        // clearInterval($noRepeat)
+        $noRepeat = setInterval(() => {
+            e.removeClass('active')
+            // if (userLight > 1) {
+            //     userLight = 0
+            //     clearInterval($noRepeat)
+            // }
+        }, 500);    
+        console.log(scoreLight)
 
+    }
+    console.log()
+    
+    $aiLightUp = (e, repeat) => {
+        // aiLight += 1
+        e.addClass('activeAI');
+        $noRepeat = setInterval(() => {
+            e.removeClass('activeAI')
+            // if (aiLight > 1) {
+            //     aiLight = 0
+            //     clearInterval($noRepeat)
+            // }
+        }, 800);
+        console.log(aiLight)
+        // clearInterval($noRepeat)
+    }
+    
+    
+    $scoreLightUp = (e) => {
+        // scoreLight += 1
+        e.addClass('activeScore');
+        $noRepeat = setInterval(() => {
+            e.removeClass('activeScore')
+            // if (scoreLight > 0) {
+            //     scoreLight = 0
+            //     clearInterval($noRepeat)
+            // }
+        }, 600);
+        console.log(scoreLight)
+        // clearInterval($noRepeat)
+    }
+    
+
+    $missLightUp = (e) => {
+        // missLight += 1
+        e.addClass('activeMiss');
+        $noRepeat = setInterval(() => {
+            e.removeClass('activeMiss')
+            // if (missLight > 0) {
+            //     missLight = 0
+            //     clearInterval($noRepeat)
+            // }
+        }, 500);
+        console.log(missLight)
+        // clearInterval($noRepeat)
+    }
+    
     //!GAME MECHANISM IS BELOW 
-
-
-    // console.log($('.bttn'))
-
-    $buttonCheck = $(".bttn").map(function () {
-        $target = $(this).prop("innerText").toLowerCase();
-        return $target
-    });
-
-    $bttnArray = $buttonCheck.toArray();
-    // console.log($bttnArray)
-    // console.log($buttonCheck);
-    // console.log(keystroke)
     
+    const gameButton = $('.bttn')
     
-    
-    
-    const userTyping =
+    const userTyping = 
     $('body').on("keydown", e => {
         const keyNormalize = e.key.toLowerCase();
-        const userIndex = keystroke.indexOf(e.key.toLowerCase());
-        //! Condition: if div matches targetGen it will light up. 
-        //? Visuals for User to see as guide
-        const userChoice = $(".bttn").map(function () {
-            const userTrigger = this.innerText.toLowerCase()
-            if (userTrigger === keyNormalize) {
-                $lightUp(this);
-                // console.log ("userIndex: " + userIndex)
-                // console.log("userChoice: " + userTrigger)
-                // console.log( userIndex )
-                user.currentLight = this
-                user.currentChoice = userIndex
-                console.log(user.currentChoice)
-                compareChoice(user.currentLight)
-                return userIndex
+        const userIndex = KEYSTROKE.indexOf(keyNormalize);
+        user.currentChoice = userIndex
+        const userChoice = gameButton.eq(userIndex)
+        if (userIndex > -1) {
+            $lightUp(userChoice)
+            compareChoice(userChoice)
             }
-        })
-        
-        
+            console.log("userIndex: " + userIndex)
+            // console.log(userChoice)
+            // return userIndex
     }); 
-    
-    $('.bttn').on("click", e => {
-        $lightUp(e.currentTarget)
-        const mouseChoice = e.currentTarget.innerText.toLowerCase()
-        const mouseIndex = keystroke.indexOf(mouseChoice)
-        // console.log("mouseChoice: " + mouseChoice)
-        // console.log("mouseIndex: " + mouseIndex)
-        return mouseIndex
-    });
+        
 
-    //! Condition: if div matches targetGen it will light up. User will now have to follow through to hit the light target.
-
+    //! Mouse click option
+    // gameButton.on("click", e => {
+    //     $lightUp(e.currentTarget)
+    //     const mouseChoice = e.currentTarget.innerText.toLowerCase()
+    //     const mouseIndex = KEYSTROKE.indexOf(mouseChoice)
+    //     // console.log("mouseChoice: " + mouseChoice)
+    //     // console.log("mouseIndex: " + mouseIndex)
+    //     return mouseIndex
+    // });
+        
+        
     theAI = () => {
-
-        //? targetGen makes a random selection for keystroke for user to hit with the key within a set time
-
-        const targetGen = Math.floor( (Math.random() * (keystroke.length) ));
-
-        //! This followed by a condition to run $lightUp when matched with targetGen condition 
-        // const test = $('.bttn').map( x => {
-        //     console.log (x)
-        // })
-
-        const aiBrain = $(".bttn").map( function() {
-            // console.log (this)
-            const aiChoice = this.innerText.toLowerCase();
-            const aiIndex = $bttnArray.indexOf(aiChoice);
-            // console.log(aiIndex)
-            if ( aiIndex === targetGen) {
-            $aiLightUp(this)
-            // console.log("aiIndex: " + aiIndex)
-            // console.log("aiChoice: " + aiChoice)
-            ai.currentChoice = aiIndex
-            console.log(ai.currentChoice)
-            return aiIndex
-            }   
-
-        })
-
-    return ( aiBrain )
+        const aiIndex = Math.floor( (Math.random() * (KEYSTROKE.length) ));
+        const aiChoice = gameButton.eq(aiIndex)
+        $aiLightUp(aiChoice)
+        ai.currentChoice = aiIndex
+        console.log("aiIndex: "+ aiIndex)
+        console.log(ai.currentChoice)
+        
+        return aiIndex
     };
-
-    //!
-    //! this guy is producing intervals 
-    //!
-    const aiSpeed = setInterval(theAI, 700)
-
-    outOfTime = () => {
-        return clearInterval(aiSpeed)
-    };
-
-    //! Temporary timer
-    setTimeout(outOfTime, 60_000)
-
-    // const gameSpeed = setInterval(timerDisplay ,1000)
-
-    //! timerDisplay() is supposed to append a timer into html (Not done)
-
-    ////
-    //! Function to stop count
-    ////
-
-
-    clockCount = () => {
-        return clearInterval(gameSpeed)
+        
+    $currentScore = $(".score")
+    $currentStreak = $('.streak')
+    $currentTime = $(".time")
+    $highScore = $(".highscore")
+    $highStreak = $(".highstreak")
+    $h3 = $("<h3>")
+    $zoneScore = $currentScore.append($h3)
+    $zoneStreak = $currentStreak.append($h3)
+    $zoneTime = $currentTime.append($h3)
+    $zoneHighscore = $highScore.append($h3)
+    $zoneHighstreak = $highStreak.append($h3)
+    
+    
+    
+    $play = () => {
+        
+        $start = () => {
+            user.currentScore = 0
+            user.currentStreak = 0
+            $zoneScore.text("Score: " + `${user.currentScore}`)
+            $zoneStreak.text("Streak: " + `${user.currentStreak}`)
+            let gameTime = 60
+            const aiSpeed = setInterval(theAI, 700)
+            
+            outOfTime = () => {
+                gameTime = 0
+                return clearInterval(aiSpeed)
+            };
+            
+            
+            const timeKeeper = setInterval(() => {
+                $zoneTime.text("Time: " + gameTime)
+                console.log(gameTime)
+                gameTime -= 1
+                if (gameTime < 0) {
+                    clearInterval(timeKeeper)
+                    outOfTime()
+                }
+                
+            }, 1000);
+        
+            if (user.currentScore < 0) {
+                outOfTime()
+                clearInterval(timeKeeper)
+                alert("Time is up buddy")
+            } 
+            
+            $(".stop").on("click", outOfTime)
+        }
+        
+        let startTime = 3
+        const startTimer = setInterval(() => {
+            $zoneTime.text("Time: " + startTime)
+            startTime -= 1
+            if (startTime < 0) {
+                clearInterval(startTimer)
+                $start();
+                
+            }
+        }, 1000)
     }
+    
+    $(".play").on("click", $play)
+    
 
-    //!
-    //! Final Time 45_000ms
-    //!
-    // setTimeout(outOfTime, 45_000)
-
-    // setTimeout(clockCount, 60_000)
-
-
-
-
-
-    ////
     //! GAME RULES AND CONDITIONS 
-    ////
-    const missed = [];
+
+
+    let missed = [];
     compareChoice = (light) => {
+        let point = 1
+        
+        $zoneScore.text("Score: " + `${user.currentScore}`)
+        $zoneStreak.text("Streak: " + `${user.currentStreak}`)
+        $zoneHighscore.text("Highscore: " + `${user.highScore}`)
+        $zoneHighstreak.text(" Longest Streak: "+ `${user.highStreak}`)
         
         if (user.currentChoice === ai.currentChoice) {
             $scoreLightUp(light)
-            user.currentScore = user.currentScore + 1
+
+            if (user.currentStreak > 20) {
+                point = point*2; 
+                $zoneScore.text("Score: " + `${user.currentScore}` + "X2!")
+            }
+            user.currentScore += point
             user.currentStreak += 1
-            console.log("current Score " + user.currentScore)
-            console.log("current streak " + user.currentStreak)
+
+            // console.log("current Score " + user.currentScore)
+            // console.log("current streak " + user.currentStreak)
             console.log("sick")
         } else {
             user.currentStreak = 0
             missed.push(ai.currentChoice)
-            console.log("current Score " + user.currentScore)
-            console.log("current streak " + user.currentStreak)
+            $zoneStreak.text("Streak: " + `${user.currentStreak}` + " RESET!")
+            // console.log("current Score " + user.currentScore)
+            // console.log("current streak " + user.currentStreak)
             // console.log(missed)
-            console.log("suck")
+            console.log("sucks")
         } 
         if (missed.length > 3) {
-            for (let i = 0; i < missed.length; i++) {
-                missed.pop()
-            }
-            console.log("missed: " + missed)
+            missed = [];
             $missLightUp(light)
             user.currentScore -= 5
-            console.log("current Score " + user.currentScore)
-            console.log("current streak " + user.currentStreak)
+
+            $zoneScore.text("Score: " + `${user.currentScore}` + " -5!")
+            
+            // console.log("missed: " + missed)
+            // console.log("current Score " + user.currentScore)
+            // console.log("current streak " + user.currentStreak)
+            // console.log("missed, fool.")
         }
-        if (user.currentStreak > 20) {
-            user.currentScore += 2
+        if (user.currentStreak > user.highStreak) {
+            user.highStreak = user.currentStreak
+
+            // console.log("highstreak: " + user.highStreak)
+        }
+        if (user.currentScore > user.highScore) {
+            user.highScore = user.currentScore
+
+
+
+            // console.log ("highscore: " + user.highScore)
         }
         
+
         
-        
+
         console.log("missed: " + missed)
     }
     
 
-
-
-
-    //! THIS SECTION BELOW IS ALL ABOUT LIGTING THE SCREEN UP
-
-    ////
-    //! This shows where AI or User is at on screen.
-    ////
-    $lightUp = (e) => {
-        e.classList
-            .add('active');
-        setInterval(() => {
-            e.classList
-                .remove('active')
-        }, 700);
-    }
-
-    $aiLightUp = (e) => {
-        e.classList
-            .add('activeAI');
-        setInterval(() => {
-            e.classList
-                .remove('activeAI')
-        }, 800);
-    }
-
-
-    $scoreLightUp = (e) => {
-        e.classList
-            .add('activeScore');
-        setInterval(() => {
-            e.classList
-                .remove('activeScore')
-        }, 600);
-    }
-
-    $missLightUp = (e) => {
-        e.classList
-            .add('activeMiss');
-        setInterval(() => {
-            e.classList
-                .remove('activeMiss')
-        }, 500);
-    }
 
 });
