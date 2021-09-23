@@ -32,14 +32,19 @@ $(() => {
         
     } 
 
-    let a, b
-    let $noRepeat = null;
-    b = $noRepeat
+    // let a, b
+    // let $noRepeat = null;
+    // b = $noRepeat
 
-
+    let noRepeat = 0
 
     $lightUp = (e) => {
+        noRepeat = 0
+        noRepeat += 1
         e.addClass('active');
+        if (noRepeat > 0) {
+            noRepeat = 0
+        }
         // if ($noRepeat) {
         //     clearInterval($noRepeat)
         // }
@@ -50,19 +55,22 @@ $(() => {
 
     }
 
-    let aiLight = 0
+    
 
     $aiLightUp = (e) => {
-        aiLight += 1
-        console.log(aiLight)
+        noRepeat = 0
+        noRepeat += 1
+        console.log(noRepeat)
         e.addClass('activeAI');
-        if (aiLight > 0) {
-            clearInterval($noRepeat)
+        if (noRepeat > 0) {
+            noRepeat = 0
+            clearInterval(noRepeat)
         }
+        
         // if ($noRepeat) {
         //     clearInterval($noRepeat)
         // }
-        $noRepeat = setInterval(() => {
+        noRepeat = setInterval(() => {
             e.removeClass('activeAI')
             // if (aiLight > 1) {
             //     aiLight = 0
@@ -75,38 +83,28 @@ $(() => {
     
     
     $scoreLightUp = (e) => {
-        // scoreLight += 1
+        noRepeat = 0
+        noRepeat += 1
         e.addClass('activeScore');
-        // if ($noRepeat) {
-        //     clearInterval($noRepeat)
-        // }
-        $noRepeat = setInterval(() => {
+        if (noRepeat > 0) {
+            noRepeat = 0
+        }
+        noRepeat = setInterval(() => {
             e.removeClass('activeScore')
-            // if (scoreLight > 0) {
-            //     scoreLight = 0
-            //     clearInterval($noRepeat)
-            // }
         }, 1000);
-        // console.log(scoreLight)
-        // clearInterval($noRepeat)
     }
     
 
     $missLightUp = (e) => {
-        // missLight += 1
+        noRepeat = 0
+        noRepeat += 1
         e.addClass('activeMiss');
-        // if ($noRepeat) {
-        //     clearInterval($noRepeat)
-        // }
-        $noRepeat = setInterval(() => {
+        if (noRepeat > 0) {
+            noRepeat = 0
+        }
+        noRepeat = setInterval(() => {
             e.removeClass('activeMiss')
-            // if (missLight > 0) {
-            //     missLight = 0
-            //     clearInterval($noRepeat)
-            // }
         }, 1000);
-        // console.log(missLight)
-        // clearInterval($noRepeat)
     }
     
     //!GAME MECHANISM IS BELOW 
