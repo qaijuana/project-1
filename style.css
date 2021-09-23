@@ -16,6 +16,10 @@ main {
 
 .startPage {
     display: none;
+    max-width: 400px;
+    margin: 100px auto 0 auto;
+    justify-content: center;
+    align-items: center;
 }
 
 .mainPage {
@@ -27,8 +31,11 @@ main {
     position: relative;
 }
 
-.gameMain {
-    /* display: none; */
+.begin {
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin: 50px auto;
 }
 
 .dropdown-menu {
@@ -38,7 +45,7 @@ main {
 
 nav {
     width: 80%;
-    min-height: 70px;
+    min-height: 90px;
 
 }
 

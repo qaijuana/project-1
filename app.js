@@ -2,9 +2,8 @@ const KEYSTROKE =["w", "i", "a", "s", "d", "j", "k", "l"];
 
 $(() => {
     //! CALLING FUNCTIONS WOULD BE INSIDE HERE.
-    const $userName = $(".userName")
-
-
+    
+    
     const user = {
         "name": null,
         "currentScore": 0,
@@ -15,6 +14,11 @@ $(() => {
         "highStreak": 0,
         "highScore": 0,
     }
+
+    // user.name = prompt("I'm Dexter! \nWhats your name?")
+    // const $userName = $(".userName")
+    // $userName.append("").text("vs " + user.name)
+
     const game = {
         "speed": 700,
         "time": 60,
@@ -31,20 +35,13 @@ $(() => {
     const $timeSlider = $("#gameTime")
     const $speedSlider = $("#aiSpeed")
     $timeSlider.on('change', x => {
-        // console.log($timeSlider.val())
         game.time = $timeSlider.val()
     })
     $speedSlider.on('change', x => {
-        // console.log($speedSlider.val())
         game.speed = $speedSlider.val()
     })
     
 
-
-    // let customTime = $.val() 
-
-    
-    // console.log(customTime)
 
     $lightUp = (e) => {
         noRepeat = 0
@@ -107,19 +104,6 @@ $(() => {
     //!GAME MECHANISM IS BELOW 
     
     const gameButton = $('.bttn')
-    
-    // const userTyping = 
-    // $('body').on("keydown", e => {
-    //     const keyNormalize = e.key.toLowerCase();
-    //     const userIndex = KEYSTROKE.indexOf(keyNormalize);
-    //     user.currentChoice = userIndex
-    //     user.currentButton = gameButton.eq(userIndex) 
-    //     if (userIndex > -1) {
-    //         $lightUp(user.currentButton)
-    //         compareChoice(user.currentButton)
-    //         }
-    // }); 
-        
 
         
     theAI = () => {
@@ -147,6 +131,7 @@ $(() => {
     noRepeat = 0
     
     render = () => {
+        $zoneTime.text("Time: " + game.time)
         $zoneScore.text("Score: " + `${user.currentScore}`)
         $zoneStreak.text("Streak: " + `${user.currentStreak}`)
         $zoneHighscore.text("Highscore: " + `${user.highScore}`)
@@ -175,21 +160,16 @@ $(() => {
 
         $start = () => {
 
-            // if (userIndex > -1) {
-            //     $lightUp(user.currentButton)
-            //     compareChoice(user.currentButton)
-            //     }
-            
+
             const aiSpeed = setInterval(theAI, game.speed)
 
             user.currentScore = 0
             user.currentStreak = 0
-
-            render()
-            // $zoneScore.text("Score: " + `${user.currentScore}`)
-            // $zoneStreak.text("Streak: " + `${user.currentStreak}`)
-            
-            
+            $zoneTime.text("Time: " + startTime)
+            .css({
+                "color": "black"
+            })
+            render()            
             outOfTime = () => {
                 game.time = 0
                 return clearInterval(aiSpeed)
@@ -197,17 +177,8 @@ $(() => {
             
             game.time = game.time
             
-
             const timeKeeper = setInterval(() => {
-
-                $zoneTime.text("Time: " + game.time)
-                .css({
-                    "font-size": "",
-                    "color": ""
-                })
-                
                 render()
-
                 game.time -= 1
 
                  if (game.time < 0) {
@@ -216,7 +187,7 @@ $(() => {
                     alert("Time is up buddy")
                     $zoneTime.text("Time: " + game.time)
                     .css({
-                        "color": ""
+                        "color": "black"
                     })
                 }else if (game.time <= 3) {
                     $zoneTime.text("Time: " + game.time)
@@ -238,6 +209,7 @@ $(() => {
         if (noRepeat > 0) {
             clearInterval(startTimer)
         }
+
         startTimer = setInterval(() => {
             $zoneTime.text("Time: " + startTime)
             .css({
@@ -272,43 +244,42 @@ $(() => {
         let point = 1
         
         //update HTML
-        $zoneScore.text("Score: " + `${user.currentScore}`)
-        $zoneStreak.text("Streak: " + `${user.currentStreak}`)
-        $zoneHighscore.text("Highscore: " + `${user.highScore}`)
-        $zoneHighstreak.text(" Longest Streak: "+ `${user.highStreak}`)
+        render()
         
-        if (user.currentChoice === ai.currentChoice) {
-            $scoreLightUp(light)
 
-            if (user.currentStreak > 20) {
-                point = point*2; 
-                user.currentScore += point
-                $zoneScore.text("Score: " + `${user.currentScore}` + " +2!")
+            if (user.currentChoice === ai.currentChoice) {
+                if (game.time > 0){    
+                    $scoreLightUp(light)
+
+                    if (user.currentStreak > 20) {
+                        point = point*2; 
+                        user.currentScore += point
+                        $zoneScore.text("Score: " + `${user.currentScore}` + " +2!")
+                    }
+                    user.currentScore += point
+                    user.currentStreak += 1
+                }
+            } else {
+                user.currentStreak = 0
+                missed.push(ai.currentChoice)
+                $zoneStreak.text("Streak: " + `${user.currentStreak}` + " reset!")
+            } 
+            if (missed.length > 3) {
+                if (game.time > 0){
+                    missed = [];
+                    user.currentScore -= 5
+                    $zoneScore.text("Score: " + `${user.currentScore}` + " -5!")
+                    $missLightUp(light)
+                }
             }
-            user.currentScore += point
-            user.currentStreak += 1
-        } else {
-            user.currentStreak = 0
-            missed.push(ai.currentChoice)
-            $zoneStreak.text("Streak: " + `${user.currentStreak}` + " RESET!")
-        } 
-        if (missed.length > 3) {
-            missed = [];
-            user.currentScore -= 5
-            $zoneScore.text("Score: " + `${user.currentScore}` + " -5!")
-            $missLightUp(light)
+            if (user.currentStreak > user.highStreak) {
+                user.highStreak = user.currentStreak
+            }
+            if (user.currentScore > user.highScore) {
+                user.highScore = user.currentScore
+            }
         }
-        if (user.currentStreak > user.highStreak) {
-            user.highStreak = user.currentStreak
-        }
-        if (user.currentScore > user.highScore) {
-            user.highScore = user.currentScore
-
-        }
+       
         
-        // console.log("missed: " + missed)
-    }
-    
-
 
 });
