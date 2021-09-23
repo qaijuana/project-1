@@ -175,7 +175,7 @@ $(() => {
                 return clearInterval(aiSpeed)
             };
             
-            game.time = game.time
+            game.time = 60
             
             const timeKeeper = setInterval(() => {
                 render()
