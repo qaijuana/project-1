@@ -3,16 +3,7 @@ const KEYSTROKE =["w", "i", "a", "s", "d", "j", "k", "l"];
 $(() => {
     //! CALLING FUNCTIONS WOULD BE INSIDE HERE.
     const $userName = $(".userName")
-    const $h4 = $("<h4>")
 
-    // alert("Hello there!")
-    // let userName = prompt("I'm Dexter.\nWhat's your name?")
-    // $userName.text("vs").delay(500).text("vs " + userName)
-    // alert("Hello " + userName + ". I'm Dexter.\nLets play a game.")
-
-    // if (sign.toLowerCase() == "scorpio") {
-    // alert("Wow! I'm a Scorpio too!");
-    // }
 
     const user = {
         "name": null,
@@ -24,7 +15,10 @@ $(() => {
         "highStreak": 0,
         "highScore": 0,
     }
-    
+    const game = {
+        "speed": 700,
+        "time": 60,
+    }
     const ai = {
         "name": "Dexter",
         "currentChoice": -1,
@@ -34,12 +28,31 @@ $(() => {
 
     let noRepeat = 0
 
+    const $timeSlider = $("#gameTime")
+    const $speedSlider = $("#aiSpeed")
+    $timeSlider.on('change', x => {
+        // console.log($timeSlider.val())
+        game.time = $timeSlider.val()
+    })
+    $speedSlider.on('change', x => {
+        // console.log($speedSlider.val())
+        game.speed = $speedSlider.val()
+    })
+    
+
+
+    // let customTime = $.val() 
+
+    
+    // console.log(customTime)
+
     $lightUp = (e) => {
         noRepeat = 0
         noRepeat += 1
         e.addClass('active');
         if (noRepeat > 0) {
             noRepeat = 0
+            clearInterval(noRepeat)
         }
         noRepeat = setInterval(() => {
             e.removeClass('active')
@@ -70,6 +83,7 @@ $(() => {
         e.addClass('activeScore');
         if (noRepeat > 0) {
             noRepeat = 0
+            clearInterval(noRepeat)
         }
         noRepeat = setInterval(() => {
             e.removeClass('activeScore')
@@ -83,6 +97,7 @@ $(() => {
         e.addClass('activeMiss');
         if (noRepeat > 0) {
             noRepeat = 0
+            clearInterval(noRepeat)
         }
         noRepeat = setInterval(() => {
             e.removeClass('activeMiss')
@@ -93,38 +108,27 @@ $(() => {
     
     const gameButton = $('.bttn')
     
-    const userTyping = 
-    $('body').on("keydown", e => {
-        const keyNormalize = e.key.toLowerCase();
-        const userIndex = KEYSTROKE.indexOf(keyNormalize);
-        user.currentChoice = userIndex
-        user.currentButton = gameButton.eq(userIndex) 
-        if (userIndex > -1) {
-            $lightUp(user.currentButton)
-            compareChoice(user.currentButton)
-            }
-    }); 
+    // const userTyping = 
+    // $('body').on("keydown", e => {
+    //     const keyNormalize = e.key.toLowerCase();
+    //     const userIndex = KEYSTROKE.indexOf(keyNormalize);
+    //     user.currentChoice = userIndex
+    //     user.currentButton = gameButton.eq(userIndex) 
+    //     if (userIndex > -1) {
+    //         $lightUp(user.currentButton)
+    //         compareChoice(user.currentButton)
+    //         }
+    // }); 
         
 
-    //! Mouse click option
-    // gameButton.on("click", e => {
-    //     $lightUp(e.currentTarget)
-    //     const mouseChoice = e.currentTarget
-    //     const mouseIndex = KEYSTROKE.indexOf(mouseChoice)
-    //     // console.log("mouseChoice: " + mouseChoice)
-    //     // console.log("mouseIndex: " + mouseIndex)
-    //     return mouseIndex
-    // });
-        
         
     theAI = () => {
         const aiIndex = Math.floor( (Math.random() * (KEYSTROKE.length) ));
         ai.currentChoice = aiIndex
         ai.currentButton = gameButton.eq(aiIndex)
-        // a = ai.currentButton
+
         $aiLightUp(ai.currentButton)
         
-        return aiIndex
     };
         
     const $currentScore = $(".score")
@@ -139,73 +143,88 @@ $(() => {
     const $zoneHighscore = $highScore.append($h3)
     const $zoneHighstreak = $highStreak.append($h3)
     let startTimer = null;
-    let gameTime = 60
+    // let game Time = 
     noRepeat = 0
     
+    render = () => {
+        $zoneScore.text("Score: " + `${user.currentScore}`)
+        $zoneStreak.text("Streak: " + `${user.currentStreak}`)
+        $zoneHighscore.text("Highscore: " + `${user.highScore}`)
+        $zoneHighstreak.text(" Longest Streak: "+ `${user.highStreak}`)
+    };
     
     
     $play =  () => {
         noRepeat = 0
         noRepeat += 1
+
+        if (game.time > 0) {
+            const userTyping = 
+            $('body').on("keydown", e => {
+                const keyNormalize = e.key.toLowerCase();
+                const userIndex = KEYSTROKE.indexOf(keyNormalize);
+                user.currentChoice = userIndex
+                user.currentButton = gameButton.eq(userIndex) 
+                if (userIndex > -1) {
+                    $lightUp(user.currentButton)
+                    compareChoice(user.currentButton)
+                }
+            });
+        }
         
 
         $start = () => {
 
+            // if (userIndex > -1) {
+            //     $lightUp(user.currentButton)
+            //     compareChoice(user.currentButton)
+            //     }
             
-            const aiSpeed = setInterval(theAI, 700)
+            const aiSpeed = setInterval(theAI, game.speed)
 
             user.currentScore = 0
             user.currentStreak = 0
 
-            $zoneScore.text("Score: " + `${user.currentScore}`)
-            $zoneStreak.text("Streak: " + `${user.currentStreak}`)
+            render()
+            // $zoneScore.text("Score: " + `${user.currentScore}`)
+            // $zoneStreak.text("Streak: " + `${user.currentStreak}`)
             
             
             outOfTime = () => {
-                gameTime = 0
-                clearInterval(aiSpeed)
+                game.time = 0
+                return clearInterval(aiSpeed)
             };
             
-            gameTime = 60
+            game.time = game.time
             
 
             const timeKeeper = setInterval(() => {
 
-                $zoneTime.text("Time: " + gameTime)
+                $zoneTime.text("Time: " + game.time)
                 .css({
                     "font-size": "",
                     "color": ""
                 })
                 
-                $zoneScore.text("Score: " + `${user.currentScore}`)
-                $zoneStreak.text("Streak: " + `${user.currentStreak}`)
-                $zoneHighscore.text("Highscore: " + `${user.highScore}`)
-                $zoneHighstreak.text(" Longest Streak: "+ `${user.highStreak}`)
+                render()
 
-                gameTime -= 1
+                game.time -= 1
 
-                 if (gameTime < 0) {
+                 if (game.time < 0) {
                     clearInterval(timeKeeper)
                     outOfTime()
-                    $zoneTime.text("Time: " + gameTime)
+                    alert("Time is up buddy")
+                    $zoneTime.text("Time: " + game.time)
                     .css({
-                        "font-size": "",
                         "color": ""
                     })
-                }else if (gameTime <= 3) {
-                    $zoneTime.text("Time: " + gameTime)
+                }else if (game.time <= 3) {
+                    $zoneTime.text("Time: " + game.time)
                 .css({
-                    "font-size": "",
                     "color": "red"
-
                 })
                 }
-                console.log(gameTime)
-                if (gameTime < 0) {
-                    outOfTime()
-                    clearInterval(timeKeeper)
-                    // alert("Time is up buddy")
-                } 
+                console.log(game.time)
                 
             }, 1000);
         
@@ -222,9 +241,7 @@ $(() => {
         startTimer = setInterval(() => {
             $zoneTime.text("Time: " + startTime)
             .css({
-                "font-size": "3rem",
                 "color": "red"
-                
             })
             startTime -= 1
             if (startTime < 0) {
@@ -238,7 +255,6 @@ $(() => {
             clearInterval(startTimer)
             $zoneTime.text("Time: " + 0)
                 .css({
-                    "font-size": "",
                     "color": ""
                 })
         }
@@ -262,7 +278,6 @@ $(() => {
         $zoneHighstreak.text(" Longest Streak: "+ `${user.highStreak}`)
         
         if (user.currentChoice === ai.currentChoice) {
-            // a = light
             $scoreLightUp(light)
 
             if (user.currentStreak > 20) {
@@ -272,20 +287,16 @@ $(() => {
             }
             user.currentScore += point
             user.currentStreak += 1
-            // console.log("sick")
         } else {
             user.currentStreak = 0
             missed.push(ai.currentChoice)
             $zoneStreak.text("Streak: " + `${user.currentStreak}` + " RESET!")
-            // console.log("sucks")
         } 
         if (missed.length > 3) {
             missed = [];
             user.currentScore -= 5
             $zoneScore.text("Score: " + `${user.currentScore}` + " -5!")
-            // a = light
             $missLightUp(light)
-            // console.log("missed, fool.")
         }
         if (user.currentStreak > user.highStreak) {
             user.highStreak = user.currentStreak

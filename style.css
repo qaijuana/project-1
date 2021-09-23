@@ -15,7 +15,7 @@ main {
 }
 
 .startPage {
-
+    display: none;
 }
 
 .mainPage {
@@ -31,8 +31,14 @@ main {
     /* display: none; */
 }
 
+.dropdown-menu {
+    font-size: 1.3rem;
+    /* background-color: rgba(0, 0, 0, 0.466); */
+}
+
 nav {
     width: 80%;
+    min-height: 70px;
 
 }
 
