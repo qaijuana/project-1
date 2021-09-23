@@ -32,10 +32,6 @@ $(() => {
         
     } 
 
-    // let a, b
-    // let $noRepeat = null;
-    // b = $noRepeat
-
     let noRepeat = 0
 
     $lightUp = (e) => {
@@ -45,13 +41,9 @@ $(() => {
         if (noRepeat > 0) {
             noRepeat = 0
         }
-        // if ($noRepeat) {
-        //     clearInterval($noRepeat)
-        // }
-        $noRepeat = setInterval(() => {
+        noRepeat = setInterval(() => {
             e.removeClass('active')
         }, 1000);    
-        // console.log(scoreLight)
 
     }
 
@@ -60,25 +52,15 @@ $(() => {
     $aiLightUp = (e) => {
         noRepeat = 0
         noRepeat += 1
-        console.log(noRepeat)
+        // console.log(noRepeat)
         e.addClass('activeAI');
         if (noRepeat > 0) {
             noRepeat = 0
             clearInterval(noRepeat)
         }
-        
-        // if ($noRepeat) {
-        //     clearInterval($noRepeat)
-        // }
         noRepeat = setInterval(() => {
             e.removeClass('activeAI')
-            // if (aiLight > 1) {
-            //     aiLight = 0
-            //     clearInterval($noRepeat)
-            // }
         }, 800);
-        // console.log(aiLight)
-        // clearInterval($noRepeat)
     }
     
     
@@ -117,21 +99,17 @@ $(() => {
         const userIndex = KEYSTROKE.indexOf(keyNormalize);
         user.currentChoice = userIndex
         user.currentButton = gameButton.eq(userIndex) 
-        // a = user.currentButton
         if (userIndex > -1) {
             $lightUp(user.currentButton)
             compareChoice(user.currentButton)
             }
-            // console.log("userIndex: " + userIndex)
-            // console.log(user.currentButton)
-            // return userIndex
     }); 
         
 
     //! Mouse click option
     // gameButton.on("click", e => {
     //     $lightUp(e.currentTarget)
-    //     const mouseChoice = e.currentTarget.innerText.toLowerCase()
+    //     const mouseChoice = e.currentTarget
     //     const mouseIndex = KEYSTROKE.indexOf(mouseChoice)
     //     // console.log("mouseChoice: " + mouseChoice)
     //     // console.log("mouseIndex: " + mouseIndex)
@@ -149,29 +127,31 @@ $(() => {
         return aiIndex
     };
         
-    $currentScore = $(".score")
-    $currentStreak = $('.streak')
-    $currentTime = $(".time")
-    $highScore = $(".highscore")
-    $highStreak = $(".highstreak")
-    $h3 = $("<h3>")
-    $zoneScore = $currentScore.append($h3)
-    $zoneStreak = $currentStreak.append($h3)
-    $zoneTime = $currentTime.append($h3)
-    $zoneHighscore = $highScore.append($h3)
-    $zoneHighstreak = $highStreak.append($h3)
-    
+    const $currentScore = $(".score")
+    const $currentStreak = $('.streak')
+    const $currentTime = $(".time")
+    const $highScore = $(".highscore")
+    const $highStreak = $(".highstreak")
+    const $h3 = $("<h3>")
+    const $zoneScore = $currentScore.append($h3)
+    const $zoneStreak = $currentStreak.append($h3)
+    const $zoneTime = $currentTime
+    const $zoneHighscore = $highScore.append($h3)
+    const $zoneHighstreak = $highStreak.append($h3)
+    let startTimer = null;
+    let gameTime = 60
+    noRepeat = 0
     
     
     
     $play =  () => {
-
-        let startTimer = null;
-
+        noRepeat = 0
+        noRepeat += 1
+        
 
         $start = () => {
 
-            let gameTime = 60
+            
             const aiSpeed = setInterval(theAI, 700)
 
             user.currentScore = 0
@@ -183,20 +163,23 @@ $(() => {
             
             outOfTime = () => {
                 gameTime = 0
-                return clearInterval(aiSpeed)
+                clearInterval(aiSpeed)
             };
             
+            gameTime = 60
             
+
             const timeKeeper = setInterval(() => {
+
                 $zoneTime.text("Time: " + gameTime)
                 .css({
                     "font-size": "",
                     "color": ""
-
                 })
+                
                 $zoneScore.text("Score: " + `${user.currentScore}`)
                 $zoneStreak.text("Streak: " + `${user.currentStreak}`)
-                $zoneHighscore.text("HighScore: " + `${user.highScore}`)
+                $zoneHighscore.text("Highscore: " + `${user.highScore}`)
                 $zoneHighstreak.text(" Longest Streak: "+ `${user.highStreak}`)
 
                 gameTime -= 1
@@ -212,41 +195,54 @@ $(() => {
                 }else if (gameTime <= 3) {
                     $zoneTime.text("Time: " + gameTime)
                 .css({
-                    "font-size": "3rem",
+                    "font-size": "",
                     "color": "red"
 
                 })
                 }
-                // console.log(gameTime)
+                console.log(gameTime)
+                if (gameTime < 0) {
+                    outOfTime()
+                    clearInterval(timeKeeper)
+                    // alert("Time is up buddy")
+                } 
                 
             }, 1000);
         
-            if (gameTime < 0) {
-                outOfTime()
-                clearInterval(timeKeeper)
-                alert("Time is up buddy")
-            } 
             
             $(".stop").on("click", outOfTime)
         }
 
         
         let startTime = 3
-
+        
+        if (noRepeat > 0) {
+            clearInterval(startTimer)
+        }
         startTimer = setInterval(() => {
             $zoneTime.text("Time: " + startTime)
             .css({
                 "font-size": "3rem",
                 "color": "red"
-
+                
             })
             startTime -= 1
             if (startTime < 0) {
                 clearInterval(startTimer)
                 $start();
-
+                
             }
         }, 1000)
+        
+        timerReset = () => {
+            clearInterval(startTimer)
+            $zoneTime.text("Time: " + 0)
+                .css({
+                    "font-size": "",
+                    "color": ""
+                })
+        }
+        $(".stop").on("click", timerReset)
     }
     
     $(".play").on("click", $play)

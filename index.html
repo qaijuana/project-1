@@ -21,18 +21,20 @@
 </head>
 
 <body>
-
-    <div class="container">
+    <div class="container startPage">
+        <h1 class="dexter">Hello! I'm Dexter</h1>
+    </div>
+    <div class="container mainPage">
 
         <header>
             <div class="row justify-content-between">
                 <div class="col-3">
-                    <h1 class="display-4 text-start">Dexter</h1>
+                    <h1 class="display-4 text-end">Dexter</h1>
                     <h4 class="userName"></h4>
                 </div>
                 <!-- <div class="col-3"></div> -->
-                <div class="leaderboard col-3 hide-prog text-start ">
-                    <h3>Leaderboard</h3>
+                <div class="leaderboard col-4 hide-prog text-start ">
+                    <h3>Stats:</h3>
                     <h4 class="highscore">Highscore:</h4>
                     <h4 class="highstreak">Longest Streak:</h4>
                 </div>
@@ -41,102 +43,121 @@
 
         </header>
 
-        <nav>
-            <div class="row">
-                <div class="col">
-                    <div class="row justify-content-start ju">
-                        <div class="play col-2">
-                            <h5>Play</h5>
+        <div class="container gameMain">
+            <nav>
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-3">
+                                <button type="button" class="btn btn-secondary btn-lg btn-success play"> Play </button>
+                            </div>
+                            <div class=" col-3">
+                                <button type="button" class="btn btn-secondary btn-lg btn-danger stop"> Stop </button>
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="btn btn-secondary btn-lg btn-warning time"> Time: </button>
+                            </div>
+            
                         </div>
-                        <div class="stop col-2">
-                            <h5>Stop</h5>
+            
+                    </div>
+                    <div class="col">
+                        <div class="row justify-content-end">
+                            <div class="col-3">
+                                <div class="btn btn-group">
+                                    <button class="btn btn-secondary btn-lg dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                      Settings
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <label for="gameTime" class="form-label btn">Round Time</label>
+                                        <input type="range" class="form-range" min="30" max="120" id="gameTime"
+                                        <label for="aiSpeed" class="form-label btn">AI Speed</label>
+                                        <input type="range" class="form-range" min="4.5" max="14.5" id="aiSpeed">
+                                    </ul>
+                                  </div>
+                            </div>
                         </div>
-                        
+            
+                    </div>
+            
+            
+                </div>
+            </nav>
+
+            <main>
+                <div class="row gameBoard">
+                    <div class="col">
+                        <h3 class="score"> Score: </h3>
+                    </div>
+                    <!-- <div class="col">
+                        <h3 class="time ">Time:</h3>
+                    </div> -->
+                    <div class="col">
+                        <h3 class="streak">Streak:</h3>
                     </div>
                 </div>
-                
-                <div class="col">
-                    <div class="row justify-content-end">
-                        <div class="nav1 col-3">
-                            <h5>Multiplayer</h5>
+                <div class="key-container">
+                    <div class="keyboard">
+                        <div class="row justify-content-around">
+            
+                            <div class="targets col ">
+                            </div>
+                            <div class="targets col ">
+                                <button class="bttn" id="W">
+                                    W
+                                </button>
+                            </div>
+                            <div class="targets col ">
+            
+                            </div>
+                            <div class="targets col ">
+            
+                            </div>
+                            <div class="targets col ">
+                                <button class="bttn" id="I">
+                                    I
+                                </button>
+                            </div>
+                            <div class="targets col ">
+            
+                            </div>
                         </div>
-                        <div class="nav2 col-3">
-                            <h5>Settings</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <main>
-            <div class="row gameBoard">
-                <div class="col">
-                    <h3 class="score"> Score: </h3>
-                </div>
-                <div class="col">
-                    <h3 class="time ">Time:</h3>
-                </div>
-                <div class="col">
-                    <h3 class="streak">Streak:</h3>
-                </div>
-            </div>
-            <div class="key-container">
-                <div class="keyboard">
-                    <div class="row justify-content-around">
-
-                        <div class="targets col p-4">
-                            <button class="bttn" id="W">
-                                <h2>W</h2>
-                            </button>
-                        </div>
-
-                        <div class="targets col p-4">
-                            <button class="bttn" id="I">
-                                <h2>I</h2>
-                            </button>
-                        </div>
-
-                    </div>
-
-                    <div class="row justify-content-around">
-                        <div class="targets col p-4">
-                            <button class="bttn" id="A">
-                                <h2>A</h2>
-                            </button>
-                        </div>
-                        <div class="targets col p-4">
-                            <button class="bttn" id="S">
-                                <h2>S</h2>
-                            </button>
-                        </div>
-                        <div class="targets col p-4">
-                            <button class="bttn" id="D">
-                                <h2>D</h2>
-                            </button>
-                        </div>
-                        <div class="targets col p-4">
-                            <button class="bttn" id="J">
-                                <h2>J</h2>
-                            </button>
-                        </div>
-                        <div class="targets col p-4">
-                            <button class="bttn" id="K">
-                                <h2>K</h2>
-                            </button>
-                        </div>
-                        <div class="targets col p-4">
-                            <button class="bttn" id="L">
-                                <h2>L</h2>
-                            </button>
+                        <div class="row justify-content-around">
+                            <div class="targets col ">
+                                <button class="bttn" id="A">
+                                    A
+                                </button>
+                            </div>
+                            <div class="targets col ">
+                                <button class="bttn" id="S">
+                                    S
+                                </button>
+                            </div>
+                            <div class="targets col ">
+                                <button class="bttn" id="D">
+                                    D
+                                </button>
+                            </div>
+                            <div class="targets col ">
+                                <button class="bttn" id="J">
+                                    J
+                                </button>
+                            </div>
+                            <div class="targets col ">
+                                <button class="bttn" id="K">
+                                    K
+                                </button>
+                            </div>
+                            <div class="targets col ">
+                                <button class="bttn" id="L">
+                                    L
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-
-
-
-        </main>
+            </main>
+        </div>
     </div>
 
 
