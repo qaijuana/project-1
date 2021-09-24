@@ -120,7 +120,6 @@ $(() => {
         const aiIndex = Math.floor( (Math.random() * (KEYSTROKE.length) ));
         ai.currentChoice = aiIndex
         ai.currentButton = gameButton.eq(aiIndex)
-
         $aiLightUp(ai.currentButton)
         
     };
@@ -254,6 +253,7 @@ $(() => {
                     if (user.currentStreak > 20) {
                         point = point*2; 
                         user.currentScore += point
+                        user.currentStreak += 1
                         $zoneScore.text("Score: " + `${user.currentScore}` + " +2!")
                     }else {
                         point = 1 
