@@ -31,6 +31,17 @@ $(() => {
     } 
 
     let noRepeat = 0
+    const $currentScore = $(".score")
+    const $currentStreak = $('.streak')
+    const $currentTime = $(".time")
+    const $highScore = $(".highscore")
+    const $highStreak = $(".highstreak")
+    const $h3 = $("<h3>")
+    const $zoneScore = $currentScore.append($h3)
+    const $zoneStreak = $currentStreak.append($h3)
+    const $zoneTime = $currentTime
+    const $zoneHighscore = $highScore.append($h3)
+    const $zoneHighstreak = $highStreak.append($h3)
 
     const $timeSlider = $("#gameTime")
     const $speedSlider = $("#aiSpeed")
@@ -62,7 +73,6 @@ $(() => {
     $aiLightUp = (e) => {
         noRepeat = 0
         noRepeat += 1
-        // console.log(noRepeat)
         e.addClass('activeAI');
         if (noRepeat > 0) {
             noRepeat = 0
@@ -115,17 +125,7 @@ $(() => {
         
     };
         
-    const $currentScore = $(".score")
-    const $currentStreak = $('.streak')
-    const $currentTime = $(".time")
-    const $highScore = $(".highscore")
-    const $highStreak = $(".highstreak")
-    const $h3 = $("<h3>")
-    const $zoneScore = $currentScore.append($h3)
-    const $zoneStreak = $currentStreak.append($h3)
-    const $zoneTime = $currentTime
-    const $zoneHighscore = $highScore.append($h3)
-    const $zoneHighstreak = $highStreak.append($h3)
+    
     let startTimer = null;
     // let game Time = 
     noRepeat = 0
@@ -255,9 +255,10 @@ $(() => {
                         point = point*2; 
                         user.currentScore += point
                         $zoneScore.text("Score: " + `${user.currentScore}` + " +2!")
+                    }else {
+                        user.currentScore += point
+                        user.currentStreak += 1
                     }
-                    user.currentScore += point
-                    user.currentStreak += 1
                 }
             } else {
                 user.currentStreak = 0
