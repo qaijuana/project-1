@@ -258,7 +258,7 @@ $(() => {
                     }else {
                         point = 1 
                         user.currentScore += point
-                        user.currentStreak + 1
+                        user.currentStreak += 1
                     }
                 }
             } else {
