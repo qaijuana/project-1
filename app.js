@@ -256,8 +256,9 @@ $(() => {
                         user.currentScore += point
                         $zoneScore.text("Score: " + `${user.currentScore}` + " +2!")
                     }else {
+                        point = 1 
                         user.currentScore += point
-                        user.currentStreak += 1
+                        user.currentStreak + 1
                     }
                 }
             } else {
